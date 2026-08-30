@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  lint:
+    name: Shell check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run shellcheck
+        run: |
+          shellcheck bin/omarchy-emacs-doom-setup dev/try-theme test/render-smoke.sh
+
+  compile:
+    name: Byte-compile elisp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: purcell/setup-emacs@master
+        with:
+          version: 29
+      - name: Byte-compile omarchy-doom.el
+        run: emacs -Q --batch --eval "(setq byte-compile-error-on-warn t)" \
+            -f batch-byte-compile config/lisp/omarchy-doom.el
+
+  render:
+    name: Render smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The render test self-skips when Omarchy (and its template resolver)
+      # is not present; on Omarchy runners it validates the template fully.
+      - name: Run smoke test
+        run: bash test/render-smoke.sh

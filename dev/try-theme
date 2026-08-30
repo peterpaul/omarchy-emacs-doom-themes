@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# Preview the working-tree Doom theme against any Omarchy theme, without
+# installing the package and without changing the live theme.
+#
+#   dev/try-theme                  # the current Omarchy theme
+#   dev/try-theme tokyo-night      # any installed theme, by directory name
+#   dev/try-theme --list           # what is installed
+#   dev/try-theme --tty gruvbox    # terminal frame instead of a GUI window
+#
+# The template is rendered by Omarchy's own resolver (omarchy-theme-color and
+# omarchy-theme-set-templates), so what you see matches a real `omarchy theme
+# set` -- including the legacy color0..color15 aliases it synthesizes and the
+# mix_strip/mix_rgb color mixes the theme uses. Requires doom-themes to be
+# installed and on your load-path.
+set -euo pipefail
+
+REPO=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
+TPL="$REPO/doom-omarchy-theme.el.tpl"
+OUT_BASE="${TMPDIR:-/tmp}/omarchy-doom-try"
+
+die() { echo "try-theme: $*" >&2; exit 1; }
+
+TTY=0
+case "${1:-}" in
+  -h|--help)
+    head -12 "$0" | sed -n 's/^# \{0,1\}//p'
+    exit 0
+    ;;
+  --list)
+    { ls -1 "${OMARCHY_PATH:-/usr/share/omarchy}/themes" 2>/dev/null
+      ls -1 "$HOME/.config/omarchy/themes" 2>/dev/null; } | sort -u
+    exit 0
+    ;;
+  --tty) TTY=1; shift ;;
+esac
+
+THEME="${1:-$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null || true)}"
+[[ -n $THEME ]] || die "no theme given and no current theme found"
+
+command -v omarchy-theme-set-templates >/dev/null || \
+  die "omarchy-theme-set-templates not on PATH"
+[[ -f $TPL ]] || die "missing template: $TPL"
+
+if [[ -d $HOME/.config/omarchy/themes/$THEME ]]; then
+  THEME_DIR="$HOME/.config/omarchy/themes/$THEME"
+else
+  THEME_DIR="${OMARCHY_PATH:-/usr/share/omarchy}/themes/$THEME"
+fi
+COLORS="$THEME_DIR/colors.toml"
+[[ -f $COLORS ]] || die "no colors.toml for '$THEME' (try --list)"
+
+OUT="$OUT_BASE/$THEME"
+mkdir -p "$OUT"
+
+# Stage just our template and the requested theme's colors into a scratch
+# home, then let Omarchy's own renderer do the work. It reads colors from
+# next-theme/colors.toml and writes every themed/*.tpl next to it.
+SCRATCH="${TMPDIR:-/tmp}/omarchy-doom-try-home.$THEME"
+rm -rf "$SCRATCH"
+NEXT="$SCRATCH/.local/state/omarchy/current/next-theme"
+mkdir -p "$NEXT" "$SCRATCH/.config/omarchy/themed"
+cp "$COLORS" "$NEXT/colors.toml"
+cp "$TPL" "$SCRATCH/.config/omarchy/themed/"
+
+OMARCHY_PATH="${OMARCHY_PATH:-/usr/share/omarchy}" HOME="$SCRATCH" \
+  omarchy-theme-set-templates >/dev/null 2>&1 \
+  || die "rendering '$THEME' failed"
+
+cp "$NEXT/doom-omarchy-theme.el" "$OUT/doom-omarchy-theme.el" 2>/dev/null \
+  || die "render produced no doom-omarchy-theme.el"
+
+if grep -q '{{' "$OUT/doom-omarchy-theme.el"; then
+  echo "try-theme: warning, unresolved template variables:" >&2
+  grep -o '{{[^}]*}}' "$OUT/doom-omarchy-theme.el" | sort -u | sed 's/^/  /' >&2
+fi
+
+SETUP="(progn
+  (find-file \"$OUT/doom-omarchy-theme.el\")
+  (global-display-line-numbers-mode 1)
+  (global-hl-line-mode 1)
+  (show-paren-mode 1)
+  (split-window-below)
+  (other-window 1)
+  (message \"doom-omarchy: %s -- lower window shows the inactive mode line\" \"$THEME\"))"
+
+ARGS=(-Q
+  --eval "(require 'doom-themes)"
+  --eval "(add-to-list 'custom-theme-load-path \"$OUT\")"
+  --eval "(load-file \"$OUT/doom-omarchy-theme.el\")"
+  --eval "(enable-theme 'doom-omarchy)"
+  --eval "$SETUP")
+
+(( TTY )) && ARGS=(-nw "${ARGS[@]}")
+exec emacs "${ARGS[@]}"

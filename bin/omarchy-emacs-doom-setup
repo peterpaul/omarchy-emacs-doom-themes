@@ -1,0 +1,40 @@
+#!/bin/bash
+# omarchy-emacs-doom-themes:managed — overwritten by package updates.
+
+# Set up the Omarchy-driven Doom Emacs theme for the current user.
+# Installs the Emacs library and the theme template, then regenerates the
+# active theme so the generated Doom theme appears on next Emacs start.
+
+SHARE_DIR="/usr/share/omarchy-emacs-doom-themes"
+CONFIG_DIR="$HOME/.config/emacs"
+LISP_DIR="$CONFIG_DIR/lisp"
+THEMED_DIR="$HOME/.config/omarchy/themed"
+
+mkdir -p "$LISP_DIR"
+mkdir -p "$THEMED_DIR"
+
+# Emacs library that applies the generated Doom theme. User-owned once
+# installed — the setup script only writes it on first install so edits
+# survive package upgrades.
+if [[ ! -f "$LISP_DIR/omarchy-doom.el" ]]; then
+  cp "$SHARE_DIR/config/lisp/omarchy-doom.el" "$LISP_DIR/omarchy-doom.el"
+fi
+
+# Theme template consumed by `omarchy theme set`. Managed (always
+# refreshed) so template improvements reach the user on upgrade.
+cp "$SHARE_DIR/doom-omarchy-theme.el.tpl" "$THEMED_DIR/doom-omarchy-theme.el.tpl"
+
+# Re-render the active theme so `doom-omarchy-theme.el` is generated.
+if command -v omarchy-theme-set &>/dev/null; then
+  theme=$(cat "$HOME/.local/state/omarchy/current/theme.name" 2>/dev/null)
+  if [[ -n $theme ]]; then
+    omarchy-theme-set "$theme"
+  fi
+fi
+
+# Reapply in a running Emacs daemon, if any.
+if command -v omarchy-restart-emacs &>/dev/null; then
+  omarchy-restart-emacs
+fi
+
+echo "Omarchy Emacs Doom theme setup complete!"
