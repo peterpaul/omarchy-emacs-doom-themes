@@ -52,6 +52,17 @@ two standard Omarchy locations (4 then 3)."
               ((file-readable-p file)))
     file))
 
+(defun omarchy-doom--register-theme ()
+  "Make the generated Doom theme selectable in `M-x customize-themes'.
+
+Emacs discovers themes by scanning `custom-theme-load-path' for files
+named `THEME-theme.el', so the generated theme's directory is added there
+once the theme file exists.  Idempotent; safe to call repeatedly."
+  (when-let* ((dir (omarchy-doom--theme-directory))
+              (theme-file (expand-file-name omarchy-doom--theme-file-name dir))
+              ((file-readable-p theme-file)))
+    (add-to-list 'custom-theme-load-path dir)))
+
 (defun omarchy-doom--forget-theme ()
   "Forget generated themes so a reload redefines them cleanly."
   (dolist (theme (cons omarchy-doom-theme '(omarchy omarchy-dark omarchy-light)))
@@ -93,7 +104,9 @@ generated a theme yet (its assets appear after the first
     (setq omarchy-doom--watch
           (file-notify-add-watch
            "~/.local/state/omarchy/current/theme.name" '(change)
-           (lambda (_event) (omarchy-doom-apply))))))
+           (lambda (_event)
+             (omarchy-doom--register-theme)
+             (omarchy-doom-apply))))))
 
 (defun omarchy-doom-activate ()
   "Apply the Omarchy Doom theme now and on every Omarchy theme change."
@@ -102,6 +115,7 @@ generated a theme yet (its assets appear after the first
     (advice-remove 'omarchy-apply-theme #'omarchy-doom-apply)
     (advice-add 'omarchy-apply-theme :after #'omarchy-doom-apply))
   (omarchy-doom--watch-setup)
+  (omarchy-doom--register-theme)
   (add-hook 'after-init-hook #'omarchy-doom-apply -50))
 
 (provide 'omarchy-doom)

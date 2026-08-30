@@ -11,7 +11,10 @@ one renders a `doom-themes` port so you can use a unified Doom appearance.
 - **`~/.config/emacs/lisp/omarchy-doom.el`** — an Emacs library that loads the
   generated Doom theme and re-applies it whenever the Omarchy theme changes.
   It advises `omarchy-apply-theme` when omarchy-emacs is present, and installs
-  a small file-watch fallback otherwise.
+  a small file-watch fallback otherwise. Once the theme file has been
+  generated, the library also registers its directory on
+  `custom-theme-load-path`, so **`doom-omarchy` appears in `M-x
+  customize-themes`** and can be toggled/described like any other theme.
 - **`doom-omarchy-theme.el.tpl`** — an Omarchy template rendered by
   `omarchy theme set` into `~/.local/state/omarchy/current/theme/doom-omarchy-theme.el`.
   It uses Omarchy's built-in template variables (`{background_strip}`,
@@ -64,6 +67,8 @@ Then load the library and apply it:
 
 ## Customizing
 
+- Select **`doom-omarchy`** from `M-x customize-themes`, or load it directly
+  with `M-x load-theme RET doom-omarchy`.
 - The theme defines `doom-omarchy-brighter-modeline`,
   `doom-omarchy-brighter-comments`, `doom-omarchy-comment-bg` and
   `doom-omarchy-padded-modeline` as `defcustom`s. Set them before applying.
