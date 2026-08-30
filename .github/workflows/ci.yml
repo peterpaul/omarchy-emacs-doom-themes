@@ -19,11 +19,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: purcell/setup-emacs@master
-        with:
-          version: 29
+      - name: Install Emacs
+        run: sudo apt-get update && sudo apt-get install -y emacs-nox
       - name: Byte-compile omarchy-doom.el
-        run: emacs -Q --batch --eval "(setq byte-compile-error-on-warn t)" \
+        run: emacs --batch --eval "(setq byte-compile-error-on-warn t)" \
             -f batch-byte-compile config/lisp/omarchy-doom.el
 
   render:

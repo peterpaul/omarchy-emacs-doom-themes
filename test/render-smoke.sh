@@ -22,8 +22,11 @@ if [[ -n $theme && -f "${OMARCHY_PATH:-/usr/share/omarchy}/themes/$theme/colors.
 elif [[ -f "$HOME/.config/omarchy/themes/$theme/colors.toml" ]]; then
   colors="$HOME/.config/omarchy/themes/$theme/colors.toml"
 else
-  colors=$(ls -1 "${OMARCHY_PATH:-/usr/share/omarchy}"/themes/*/colors.toml \
-            "$HOME/.config/omarchy"/themes/*/colors.toml 2>/dev/null | head -1 || true)
+  shopt -s nullglob
+  candidates=("${OMARCHY_PATH:-/usr/share/omarchy}/themes/"*/colors.toml
+              "$HOME/.config/omarchy/themes/"*/colors.toml)
+  shopt -u nullglob
+  colors="${candidates[0]:-}"
 fi
 [[ -n ${colors:-} && -f ${colors:-} ]] || { echo "SKIP: no theme colors.toml to render"; exit 0; }
 
