@@ -1,6 +1,6 @@
 # Maintainer: Peterpaul Klein Haneveld <pp.kleinhaneveld@gmail.com>
 pkgname=omarchy-emacs-doom-themes
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc="A Doom Emacs theme (doom-themes) generated from the active Omarchy theme"
 arch=('any')
