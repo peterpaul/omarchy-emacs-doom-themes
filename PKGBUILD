@@ -1,4 +1,4 @@
-# Maintainer: Peter Paul <peterpaul@example.com>
+# Maintainer: Peterpaul Klein Haneveld <pp.kleinhaneveld@gmail.com>
 pkgname=omarchy-emacs-doom-themes
 pkgver=0.1.0
 pkgrel=1
