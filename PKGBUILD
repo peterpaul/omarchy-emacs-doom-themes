@@ -6,7 +6,7 @@ pkgdesc="A Doom Emacs theme (doom-themes) generated from the active Omarchy them
 arch=('any')
 url="https://github.com/peterpaul/omarchy-emacs-doom-themes"
 license=('MIT')
-depends=('omarchy-emacs' 'bash' 'emacs')
+depends=('bash' 'emacs')
 source=("$pkgname-$pkgver.tar.gz::$url/archive/refs/tags/v$pkgver.tar.gz")
 sha256sums=('SKIP')
 
