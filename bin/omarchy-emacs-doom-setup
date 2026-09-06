@@ -16,8 +16,8 @@ mkdir -p "$THEMED_DIR"
 # Emacs library that applies the generated Doom theme. User-owned once
 # installed — the setup script only writes it on first install so edits
 # survive package upgrades.
-if [[ ! -f "$LISP_DIR/omarchy-doom.el" ]]; then
-  cp "$SHARE_DIR/config/lisp/omarchy-doom.el" "$LISP_DIR/omarchy-doom.el"
+if [[ ! -f "$LISP_DIR/doom-omarchy.el" ]]; then
+  cp "$SHARE_DIR/config/lisp/doom-omarchy.el" "$LISP_DIR/doom-omarchy.el"
 fi
 
 # Theme template consumed by `omarchy theme set`. Managed (always

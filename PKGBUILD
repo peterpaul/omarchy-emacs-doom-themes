@@ -15,8 +15,8 @@ package() {
 
   # Install the Emacs library that applies the generated Doom theme.
   install -dm755 "$pkgdir/usr/share/omarchy-emacs-doom-themes/config/lisp"
-  install -Dm644 config/lisp/omarchy-doom.el \
-    "$pkgdir/usr/share/omarchy-emacs-doom-themes/config/lisp/omarchy-doom.el"
+  install -Dm644 config/lisp/doom-omarchy.el \
+    "$pkgdir/usr/share/omarchy-emacs-doom-themes/config/lisp/doom-omarchy.el"
 
   # Install the theme template consumed by `omarchy theme set`.
   install -Dm644 doom-omarchy-theme.el.tpl \

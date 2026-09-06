@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Renamed the Emacs library from `omarchy-doom` to `doom-omarchy` to unify the
+  prefix with the theme name. It now installs as
+  `~/.config/emacs/lisp/doom-omarchy.el`, and its entry points are
+  `doom-omarchy-activate` / `doom-omarchy-apply`. The theme's custom options
+  now live in the same `doom-omarchy` customize group.
+
 ## [0.1.1] - 2026-08-30
 
 ### Added

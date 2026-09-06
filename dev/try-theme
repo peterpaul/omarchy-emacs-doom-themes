@@ -16,7 +16,7 @@ set -euo pipefail
 
 REPO=$(cd "$(dirname "$(readlink -f "$0")")/.." && pwd)
 TPL="$REPO/doom-omarchy-theme.el.tpl"
-OUT_BASE="${TMPDIR:-/tmp}/omarchy-doom-try"
+OUT_BASE="${TMPDIR:-/tmp}/doom-omarchy-try"
 
 die() { echo "try-theme: $*" >&2; exit 1; }
 
@@ -55,7 +55,7 @@ mkdir -p "$OUT"
 # Stage just our template and the requested theme's colors into a scratch
 # home, then let Omarchy's own renderer do the work. It reads colors from
 # next-theme/colors.toml and writes every themed/*.tpl next to it.
-SCRATCH="${TMPDIR:-/tmp}/omarchy-doom-try-home.$THEME"
+SCRATCH="${TMPDIR:-/tmp}/doom-omarchy-try-home.$THEME"
 rm -rf "$SCRATCH"
 NEXT="$SCRATCH/.local/state/omarchy/current/next-theme"
 mkdir -p "$NEXT" "$SCRATCH/.config/omarchy/themed"

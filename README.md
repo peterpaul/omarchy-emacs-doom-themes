@@ -8,7 +8,7 @@ one renders a `doom-themes` port so you can use a unified Doom appearance.
 
 ## What it provides
 
-- **`~/.config/emacs/lisp/omarchy-doom.el`** — an Emacs library that loads the
+- **`~/.config/emacs/lisp/doom-omarchy.el`** — an Emacs library that loads the
   generated Doom theme and re-applies it whenever the Omarchy theme changes.
   It advises `omarchy-apply-theme` when omarchy-emacs is present, and installs
   a small file-watch fallback otherwise. Once the theme file has been
@@ -51,17 +51,17 @@ Then load the library and apply it:
 
 ```elisp
 (add-to-list 'load-path "~/.config/emacs/lisp")
-(use-package omarchy-doom
+(use-package doom-omarchy
   :config
-  (omarchy-doom-activate)
-  (omarchy-doom-apply))
+  (doom-omarchy-activate)
+  (doom-omarchy-apply))
 ```
 
 ## What gets installed where
 
 | Path | Status |
 |------|--------|
-| `~/.config/emacs/lisp/omarchy-doom.el` | **Yours** — copied only if missing. Edit to taste; survives upgrades. |
+| `~/.config/emacs/lisp/doom-omarchy.el` | **Yours** — copied only if missing. Edit to taste; survives upgrades. |
 | `~/.config/omarchy/themed/doom-omarchy-theme.el.tpl` | **Managed** — overwritten on every setup run and package upgrade. |
 | `~/.local/state/omarchy/current/theme/doom-omarchy-theme.el` | **Generated** — re-rendered by `omarchy theme set`. |
 
