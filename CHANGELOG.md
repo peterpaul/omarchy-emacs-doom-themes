@@ -5,6 +5,16 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-09-06
+
+### Fixed
+
+- Fixed `doom-omarchy-padded-modeline` customize widget type (`or` → `choice`),
+  which crashed the Customize UI when expanding the option.
+- The generated theme now `(require 'doom-omarchy)` so its `defcustom`s'
+  customize group is always defined, keeping the options nested correctly
+  under the `doom-omarchy` group in the Customize UI.
+
 ## [0.2.0] - 2026-09-06
 
 ### Changed
@@ -48,7 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `PKGBUILD` for Arch/AUR packaging.
 - CI (shellcheck, Emacs byte-compile, template render smoke test).
 
-[Unreleased]: https://github.com/peterpaul/omarchy-emacs-doom-themes/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/peterpaul/omarchy-emacs-doom-themes/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/peterpaul/omarchy-emacs-doom-themes/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/peterpaul/omarchy-emacs-doom-themes/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/peterpaul/omarchy-emacs-doom-themes/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/peterpaul/omarchy-emacs-doom-themes/releases/tag/v0.1.0

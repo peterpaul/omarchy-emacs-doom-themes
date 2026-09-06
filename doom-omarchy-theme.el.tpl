@@ -17,6 +17,7 @@
 ;;; Code:
 
 (require 'doom-themes)
+(require 'doom-omarchy)
 
 ;;; Variables
 
@@ -38,7 +39,7 @@
 (defcustom doom-omarchy-padded-modeline t
   "If non-nil, adds a 4px padding to the mode-line."
   :group 'doom-omarchy
-  :type '(or integer boolean))
+  :type '(choice integer boolean))
 
 
 ;;; Theme definition
