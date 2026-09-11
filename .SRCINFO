@@ -1,13 +1,13 @@
 pkgbase = omarchy-emacs-doom-themes
 	pkgdesc = A Doom Emacs theme (doom-themes) generated from the active Omarchy theme
-	pkgver = 0.2.1
+	pkgver = 0.2.2
 	pkgrel = 1
 	url = https://github.com/peterpaul/omarchy-emacs-doom-themes
 	arch = any
 	license = MIT
 	depends = bash
 	depends = emacs
-	source = omarchy-emacs-doom-themes-0.2.1.tar.gz::https://github.com/peterpaul/omarchy-emacs-doom-themes/archive/refs/tags/v0.2.1.tar.gz
+	source = omarchy-emacs-doom-themes-0.2.2.tar.gz::https://github.com/peterpaul/omarchy-emacs-doom-themes/archive/refs/tags/v0.2.2.tar.gz
 	sha256sums = SKIP
 
 pkgname = omarchy-emacs-doom-themes
