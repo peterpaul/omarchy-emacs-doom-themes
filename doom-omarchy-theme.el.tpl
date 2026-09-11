@@ -119,11 +119,11 @@
    (modeline-bg
     (if -modeline-bright
         base3
-      (doom-darken bg 0.15)))
+      (doom-blend bg accent 0.8)))
    (modeline-bg-l
     (if -modeline-bright
         base3
-      (doom-darken bg 0.10)))
+      (doom-blend bg accent 0.85)))
    (modeline-bg-inactive   (doom-darken bg 0.10))
    (modeline-bg-inactive-l bg))
 
@@ -153,7 +153,7 @@
    ;; ;;; Doom Modeline
    (doom-modeline-bar :background (if -modeline-bright modeline-bg highlight))
    (doom-modeline-buffer-path :foreground base8 :weight 'normal)
-   (doom-modeline-buffer-file :foreground brown :weight 'normal)
+   (doom-modeline-buffer-file :foreground blue :weight 'normal)
    ((doom-modeline-persp-name &override) :foreground violet)
    ((doom-modeline-buffer-major-mode &override) :foreground violet)
    (mode-line
